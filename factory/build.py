@@ -103,7 +103,7 @@ def build_timeline(script: dict, workdir: Path) -> tuple[dict, list[Path]]:
                 for k in np.arange(0.0, cd * 0.9, 0.07):
                     events.append({"t": round(ot + k, 3), "type": "tick"})
                 events.append({"t": ot + cd, "type": "ding"})
-            elif ov.get("temp"):
+            elif ov.get("temp") or ov.get("live"):
                 events.append({"t": ot, "type": "glitch"})
                 for k in np.arange(0.3, (end - start) * 0.7, 0.09):
                     events.append({"t": round(start + k, 3), "type": "tick"})

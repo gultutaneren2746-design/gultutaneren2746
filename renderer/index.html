@@ -11,6 +11,7 @@ body{margin:0;background:#000}
 </head><body>
 <script type="module">
 import './engine.js';
+import './templates/extra.js';
 const sample = 'AaÇçĞğİıÖöŞşÜü 0123456789';
 await Promise.all([800, 900].map((w) => document.fonts.load(`${w} 60px Montserrat`, sample)));
 window.__ready = true;

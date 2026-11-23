@@ -27,7 +27,16 @@ Kullanılabilir 3D sahne şablonları (visual.type) ve parametreleri:
 - snowroad: karla kapanmış yol, yolu açan iş makinesi, arkasından yürüyen kişi. params: label.
 - globe: dünya küresi, enlem/boylam pinleri, iki pin arasında yay. params: pins [{lat, lon, label}] (1-2 adet).
 - question: dönen 3D soru işareti (kanca veya kapanış/CTA için). params: color.
-Overlay (isteğe bağlı, sahnenin üst kısmında büyük yazı): {big: "kısa metin"} veya {count: {from, to, suffix, prefix, dur}} (sayaç), {temp: true} (termometre değeri), {sub: "küçük etiket"}, y (0-1 dikey konum, başlıkla çakışmasın: ilk sahnede 0.34, diğerlerinde 0.17).
+- lake: göl üzerinde drone uçuşu ya da işaretçi etrafında yörünge. params: pin {label, sub}, waterColor, color ("pink" pembe su), salt (bool, tuz kabuğu – Tuz Gölü), time ("day"|"dusk"), snow (bool).
+- depth: göl/deniz/boğaz derinlik kesiti; sonda en dibe iner. params: value (en derin nokta, m), refs [{label, value}] (kıyas: ör. Eyfel Kulesi 330), label. Overlay {live: {suffix: " m"}} ile derinlik sayacı.
+- peak: tek büyük zirve (bulut halkası, tırmanış rotası, zirvede bayrak). params: height (zirve m), base (sayaç başlangıç m), label, twin (ikinci küçük zirve, varsayılan true), climber (bool), flag (bool). Overlay {live: {suffix: " m"}} ile irtifa sayacı.
+- tunnel: tünel içinde hızlı sürüş, sonda çıkış ışığı. params: length_km, color (ışık rengi). Overlay {live: {suffix: " km", decimals: 1}} ile mesafe sayacı.
+- underground: yer altı şehri kesiti (katlar, döner taş kapılar, merdivenler, insanlar); kamera aşağı iner. params: levels, depth (m), people (kat başına), surface ("cappadocia"|"plain"). Overlay {live: {suffix: " m"}}.
+- crowd: insan figürleri spiral şeklinde çoğalır, kamera yükselir; etrafta köy evleri. params: people (figür ≤600), count (sayaç hedefi), snow. Overlay {live: {}} + sub ile nüfus sayacı.
+- ruins: antik tapınak (Göbeklitepe tipi T-dikilitaşlar, kabartmalar, toz). params: label, sub, pillars, time ("dusk"|"day").
+- timeline: zamanda geriye yolculuk; yıllara göre ışıklı işaretler. params: marks [{label, year (MÖ için negatif), highlight}], now. Overlay {live: {era: true}} ile yıl sayacı (MÖ ...).
+- quake: deprem; şehir sallanır, fay kayar, ekranda sismograf çizilir. params: magnitude, city ("dense"|"sparse"). Overlay {live: {decimals: 1}, sub: "büyüklük"}.
+Overlay (isteğe bağlı, sahnenin üst kısmında büyük yazı): {big: "kısa metin"} veya {count: {from, to, suffix, prefix, dur}} (sayaç), {temp: true} (termometre değeri), {live: {suffix, prefix, decimals, era}} (sahnenin kendi canlı değeri: depth/peak/tunnel/underground/crowd/timeline/quake/thermometer), {sub: "küçük etiket"}, y (0-1 dikey konum, başlıkla çakışmasın: ilk sahnede 0.34, diğerlerinde 0.17).
 """
 
 SYSTEM = f"""Sen Türkçe kısa video (YouTube Shorts, Instagram Reels, TikTok) senaristisin. Merak uyandıran, viral bilgi videoları yazarsın.
@@ -62,8 +71,20 @@ class GlobePin(BaseModel):
     label: str
 
 
+class RefItem(BaseModel):
+    label: str
+    value: float
+
+
+class Mark(BaseModel):
+    label: str
+    year: int
+    highlight: bool = False
+
+
 class Visual(BaseModel):
-    type: Literal["mountains", "school", "bars", "classroom", "thermometer", "snowroad", "globe", "question"]
+    type: Literal["mountains", "school", "bars", "classroom", "thermometer", "snowroad", "globe", "question",
+                  "lake", "depth", "peak", "tunnel", "underground", "crowd", "ruins", "timeline", "quake"]
     pin: Optional[Pin] = None
     snowfall: Optional[bool] = None
     time: Optional[Literal["day", "dusk", "night"]] = None
@@ -76,6 +97,29 @@ class Visual(BaseModel):
     from_: Optional[float] = Field(default=None, alias="from")
     to: Optional[float] = None
     pins: Optional[list[GlobePin]] = None
+    sub: Optional[str] = None
+    color: Optional[str] = None
+    waterColor: Optional[str] = None
+    salt: Optional[bool] = None
+    snow: Optional[bool] = None
+    value: Optional[float] = None
+    refs: Optional[list[RefItem]] = None
+    height: Optional[float] = None
+    base: Optional[float] = None
+    twin: Optional[bool] = None
+    climber: Optional[bool] = None
+    flag: Optional[bool] = None
+    length_km: Optional[float] = None
+    levels: Optional[int] = None
+    depth: Optional[float] = None
+    people: Optional[int] = None
+    count: Optional[int] = None
+    surface: Optional[Literal["cappadocia", "plain"]] = None
+    pillars: Optional[int] = None
+    marks: Optional[list[Mark]] = None
+    now: Optional[int] = None
+    magnitude: Optional[float] = None
+    city: Optional[Literal["dense", "sparse"]] = None
 
 
 class Count(BaseModel):
@@ -85,10 +129,18 @@ class Count(BaseModel):
     prefix: Optional[str] = None
 
 
+class Live(BaseModel):
+    suffix: Optional[str] = None
+    prefix: Optional[str] = None
+    decimals: Optional[int] = None
+    era: Optional[bool] = None
+
+
 class Overlay(BaseModel):
     big: Optional[str] = None
     count: Optional[Count] = None
     temp: Optional[bool] = None
+    live: Optional[Live] = None
     sub: Optional[str] = None
     y: Optional[float] = None
 

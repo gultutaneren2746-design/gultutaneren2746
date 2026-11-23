@@ -74,9 +74,32 @@ Elle tetikleme: Actions → "Günlük Shorts üretimi" → *Run workflow* (adet 
 }
 ```
 
-**3D şablonlar:** `mountains`, `school`, `bars`, `classroom`, `thermometer`, `snowroad`, `globe`, `question`
-(parametreler: `factory/scriptgen.py` → `VISUAL_DOC`; kod: `renderer/engine.js` → `T.*`).
-Yeni şablon eklemek için `engine.js` içine `T.yeni = (p, dur) => ({scene, cam, update(lt){...}})` yazmanız yeterli.
+**3D şablonlar (17):**
+
+| Şablon | Ne gösterir | Uygun konular |
+|---|---|---|
+| `mountains` | karlı dağlar, uçuş / işaretçi | rakım, bölge tanıtımı |
+| `school` | okul binası, bayrak, kar | köy okulları |
+| `bars` | 3D kıyas sütunları | her türlü sayı kıyası |
+| `classroom` | sınıf içi, öğrenciler, soba | eğitim |
+| `thermometer` | sıcaklık sayacı, buz | iklim, en soğuk/sıcak |
+| `snowroad` | karlı yol, iş makinesi | ulaşım, kış |
+| `globe` | dünya küresi, pinler, yay | dünya kıyasları |
+| `question` | 3D soru işareti | kanca / kapanış |
+| `lake` | göl uçuşu; pembe su, tuz kabuğu | Van Gölü, Tuz Gölü |
+| `depth` | derinlik kesiti, inen sonda, kıyas silueti | göl/deniz/Boğaz derinliği |
+| `peak` | tek zirve, bulutlar, tırmanış rotası, irtifa sayacı | Ağrı Dağı, zirveler |
+| `tunnel` | tünelde sürüş, km sayacı, çıkış ışığı | en uzun tüneller |
+| `underground` | yer altı şehri kesiti, döner taş kapılar | Kapadokya yer altı şehirleri |
+| `crowd` | çoğalan kalabalık, nüfus sayacı | nüfus, kalabalık köy |
+| `ruins` | T-dikilitaşlı antik tapınak | Göbeklitepe, antik yapılar |
+| `timeline` | zamanda geri yolculuk, MÖ yıl sayacı | tarih kıyasları |
+| `quake` | sallanan şehir, kayan fay, sismograf | depremler |
+
+Sahnenin kendi canlı değerini (derinlik, irtifa, km, yıl, nüfus, büyüklük) üstte göstermek için
+`"overlay": {"live": {"suffix": " m", "decimals": 1, "era": true}}` kullanılır.
+Parametreler: `factory/scriptgen.py` → `VISUAL_DOC`; kod: `renderer/engine.js` ve `renderer/templates/extra.js`.
+Yeni şablon eklemek için `renderer/templates/` altında `kit.T.yeni = (p, dur) => ({scene, cam, update(lt){...}})` yazıp `index.html`'den içe aktarmanız yeterli.
 
 **Ses efektleri** (`factory/audio.py`): `whoosh`, `impact`, `riser`, `pop`, `tick`, `ding`, `swell`, `glitch`.
 Geçiş, sayaç, vurgu ve kapanış efektleri otomatik yerleştirilir; `sfx` ile ek efekt verilebilir.

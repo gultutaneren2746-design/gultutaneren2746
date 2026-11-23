@@ -116,9 +116,10 @@ function terrain(o = {}) {
     const base = (n2(x * scale * 0.5, z * scale * 0.5) + 0.7) / 1.4;
     return Math.pow(clamp(0.62 * ridge + 0.38 * base), 1.7) * h;
   }
-  const flatY = flat ? (flat.y ?? raw(flat.x, flat.z)) : 0;
+  const base = o.heightFn ? (x, z) => o.heightFn(x, z, n, n2) : raw;
+  const flatY = flat ? (flat.y ?? base(flat.x, flat.z)) : 0;
   function height(x, z) {
-    let y = raw(x, z);
+    let y = base(x, z);
     if (flat) {
       const d = Math.hypot(x - flat.x, z - flat.z);
       const k = 1 - smooth(flat.r, flat.r * 2.2, d);
@@ -551,7 +552,7 @@ T.thermometer = (p, dur) => {
     const wp = (tcv) => { const v = new THREE.Vector3(2.6, yOf(tcv), 0); return v.applyMatrix4(g.matrixWorld); };
     g.updateMatrixWorld();
     S.labels = ticks.filter((t) => t % 20 === 0 || t === 0).map((t) => ({ pos: wp(t), text: `${t}°`, kind: 'tick', alpha: 0.9 }));
-    S.temp = tc;
+    S.temp = tc; S.live = tc;
   };
   return S;
 };
@@ -778,8 +779,11 @@ function drawLabels(S) {
 }
 
 function fmtCount(c, v) {
-  const n = Math.round(v);
-  const s = (c.sign && n > 0 ? '+' : '') + n.toLocaleString('tr-TR');
+  const d = c.decimals ?? 0;
+  const n = d ? v : Math.round(v);
+  let s;
+  if (c.era) s = n < 0 ? `MÖ ${Math.abs(n)}` : String(n);
+  else s = (c.sign && n > 0 ? '+' : '') + n.toLocaleString('tr-TR', { minimumFractionDigits: d, maximumFractionDigits: d });
   return (c.prefix || '') + s + (c.suffix || '');
 }
 
@@ -793,6 +797,7 @@ function drawBig(sc, lt, S) {
     txt = fmtCount(o.count, lerp(o.count.from ?? 0, o.count.to, k));
   }
   if (o.temp && S.temp !== undefined) txt = fmtCount({ suffix: '°C' }, S.temp);
+  if (o.live && S.live !== undefined) txt = fmtCount(o.live, S.live);
   const y = OUT_H * (o.y ?? 0.2);
   const s = easeOutBack(clamp(a / 0.35));
   octx.save(); octx.translate(OUT_W / 2, y); octx.scale(s, s);
@@ -800,7 +805,7 @@ function drawBig(sc, lt, S) {
     const size = fitSize(up(txt), o.size ?? 170, OUT_W * 0.9);
     outlinedText(up(txt), 0, 0, { size, fill: o.color || ACCENT, sw: 0.14 });
   }
-  if (o.sub) pill(up(o.sub), 0, (o.big || o.count || o.temp) ? (o.size ?? 170) * 0.78 : 0, { size: 46, bg: '#ffffff', fg: '#111' });
+  if (o.sub) pill(up(o.sub), 0, (o.big || o.count || o.temp || o.live) ? (o.size ?? 170) * 0.78 : 0, { size: 46, bg: '#ffffff', fg: '#111' });
   octx.restore();
 }
 
@@ -968,6 +973,7 @@ window.renderFrame = (t, quality = 0.9) => {
   }
   drawLabels(S);
   octx.restore();
+  if (S.draw2d) { octx.save(); S.draw2d(octx, OUT_W, OUT_H, lt, dur); octx.restore(); }
   octx.drawImage(vignette, 0, 0);
   octx.save(); octx.globalAlpha = 0.045; octx.globalCompositeOperation = 'overlay';
   octx.fillStyle = grainTiles[Math.floor(t * TL.fps) % grainTiles.length]; octx.fillRect(0, 0, OUT_W, OUT_H); octx.restore();
@@ -983,4 +989,11 @@ window.renderFrame = (t, quality = 0.9) => {
   const fadeOut = clamp((t - (TL.duration - 0.4)) / 0.4);
   if (fadeOut > 0) { octx.fillStyle = `rgba(0,0,0,${fadeOut})`; octx.fillRect(0, 0, OUT_W, OUT_H); }
   return out.toDataURL('image/jpeg', quality);
+};
+
+// ---------------------------------------------------------------- şablon eklentileri için dışa aktarım
+export const kit = {
+  THREE, T, clamp, lerp, smooth, easeOutCubic, easeInOut, easeOutBack, rng, perlin, col, canvasTex, softDot,
+  skyDome, baseScene, lights, terrain, snowfall, marker, turkishFlag, person, rocks, signTex, outlinedText, pill, up, fitSize, roundRect,
+  get ACCENT() { return ACCENT; }, get ACCENT2() { return ACCENT2; }, get FONT() { return FONT; }, get GL() { return [GL_W, GL_H]; },
 };
