@@ -1,0 +1,12 @@
+{
+  "name": "shorts-factory",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "render": "node renderer/render.mjs"
+  },
+  "dependencies": {
+    "three": "0.170.0",
+    "@fontsource/montserrat": "5.1.0"
+  }
+}

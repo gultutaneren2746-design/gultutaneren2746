@@ -1,0 +1,12 @@
+# Her satır bir video konusu. `python -m factory auto` sıradaki işlenmemiş konuyu alır.
+# İşlenenler content/done.txt dosyasına yazılır.
+Türkiye'nin en soğuk yeri neresi ve orada hayat nasıl?
+Türkiye'nin en derin gölü: Van Gölü'nün sırları
+Ağrı Dağı'nın zirvesinde gerçekte ne var?
+Türkiye'nin en uzun tüneli kaç kilometre?
+Kapadokya'daki yer altı şehirlerinde kaç kişi yaşadı?
+Tuz Gölü neden pembeye dönüyor?
+Türkiye'nin en kalabalık köyü hangisi?
+Dünyanın en eski tapınağı Göbeklitepe kaç yaşında?
+İstanbul Boğazı'nın en derin noktası kaç metre?
+Türkiye'de 1 yılda kaç deprem oluyor?

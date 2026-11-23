@@ -1,0 +1,169 @@
+{
+  "id": "turkiyenin-en-yuksek-okulu",
+  "title": "Türkiye'nin en yüksek\nokulu?",
+  "mood": "mystery",
+  "ambience": "wind",
+  "seed": 2400,
+  "scenes": [
+    {
+      "text": "Deniz seviyesinden tam *2.400 metre* yukarıda bir okul var. Ve bu okulda sadece *iki öğrenci* okuyor.",
+      "visual": {
+        "type": "mountains",
+        "pin": {
+          "label": "Akmazdam",
+          "sub": "Kars"
+        },
+        "snowfall": true,
+        "snowCover": 0.5
+      },
+      "overlay": {
+        "count": {
+          "from": 0,
+          "to": 2400,
+          "suffix": " m",
+          "dur": 1.3
+        },
+        "sub": "rakım",
+        "y": 0.34
+      }
+    },
+    {
+      "text": "Burası Kars'ın Arpaçay ilçesindeki Akmazdam köyü. Türkiye'nin *en yüksek* rakımlı okullarından biri burada.",
+      "visual": {
+        "type": "school",
+        "sign": "AKMAZDAM İLKOKULU",
+        "students": 2,
+        "angle": -0.3
+      },
+      "overlay": {
+        "sub": "Kars · Arpaçay",
+        "y": 0.16,
+        "at": 0.4
+      }
+    },
+    {
+      "text": "Kıyaslayalım: Ankara 938 metrede, Kars merkez 1.768 metrede. Bu okul ise *2.400 metrede!*",
+      "visual": {
+        "type": "bars",
+        "unit": " m",
+        "stagger": 1.3,
+        "items": [
+          {
+            "label": "Ankara",
+            "value": 938
+          },
+          {
+            "label": "Kars\nmerkez",
+            "value": 1768
+          },
+          {
+            "label": "Akmazdam\nokulu",
+            "value": 2400,
+            "highlight": true
+          }
+        ]
+      }
+    },
+    {
+      "text": "Okulda birleştirilmiş sınıf var: farklı sınıflardaki *iki çocuk*, aynı odada, aynı öğretmenden ders alıyor.",
+      "visual": {
+        "type": "classroom",
+        "students": 2,
+        "board": "2 ÖĞRENCİ\nbirleştirilmiş sınıf"
+      }
+    },
+    {
+      "text": "Kışlar ise çok sert. Bu bölgede sıcaklık *-30 derecenin* altına inebiliyor.",
+      "visual": {
+        "type": "thermometer",
+        "from": 5,
+        "to": -32
+      },
+      "overlay": {
+        "temp": true,
+        "at": 0.1,
+        "y": 0.17
+      }
+    },
+    {
+      "text": "Kar yağınca köy yolu sık sık kapanıyor. Öğretmen bazen okula, yolu açan *iş makinesinin* arkasından ulaşabiliyor.",
+      "visual": {
+        "type": "snowroad",
+        "label": "Öğretmen"
+      }
+    },
+    {
+      "text": "Yani burada her gün, sadece iki çocuk için *koca bir mücadele* veriliyor.",
+      "visual": {
+        "type": "school",
+        "sign": "AKMAZDAM İLKOKULU",
+        "time": "night",
+        "students": 2,
+        "angle": -0.25,
+        "r0": 46,
+        "r1": 32
+      }
+    },
+    {
+      "text": "Peki dünyanın en yüksek okulu nerede? Guinness'e göre Tibet'teki bir ilkokul: tam *5.022 metre!*",
+      "visual": {
+        "type": "globe",
+        "pins": [
+          {
+            "lat": 40.83,
+            "lon": 43.33,
+            "label": "Kars"
+          },
+          {
+            "lat": 28.6,
+            "lon": 90.4,
+            "label": "Tibet"
+          }
+        ]
+      },
+      "overlay": {
+        "count": {
+          "from": 0,
+          "to": 5022,
+          "suffix": " m",
+          "dur": 1.2
+        },
+        "sub": "dünya rekoru",
+        "y": 0.17
+      }
+    },
+    {
+      "text": "Sence bu şartlarda öğretmenlik yapılır mı? Yorumlara yaz, daha fazlası için *takip et!*",
+      "visual": {
+        "type": "question"
+      },
+      "overlay": {
+        "big": "SENCE?",
+        "y": 0.17,
+        "at": 0.15
+      }
+    }
+  ],
+  "post": {
+    "title": "2.400 metrede sadece 2 öğrencili okul 🏔️",
+    "caption": "Kars'ın Arpaçay ilçesindeki Akmazdam köyünde, yaklaşık 2.400 metre rakımda iki öğrencili bir köy okulu var. Kışın yollar kapanınca öğretmen bazen iş makinesinin arkasından okula ulaşıyor. Sence bu şartlarda öğretmenlik yapılır mı? 👇",
+    "hashtags": [
+      "bilgi",
+      "ilginçbilgiler",
+      "türkiye",
+      "kars",
+      "köyokulu",
+      "öğretmen",
+      "keşfet",
+      "shorts",
+      "reels",
+      "tiktokturkiye"
+    ]
+  },
+  "sources": [
+    "Akmazdam İlkokulu (Arpaçay/Kars), ~2.400 m, 2 öğrenci, birleştirilmiş sınıf: karakosehaber.com/arpacay-akmazdam-iki-ogrenci-ogretmen/235667 ; haber1.com 'Şehirden uzak 2 bin 400 rakımlı köyde iki öğrenci için eğitim mücadelesi'",
+    "Dünyanın en yüksek okulu, Pumajiangtangxiang İlkokulu (Tibet, Çin), 5.022 m: guinnessworldrecords.com/world-records/542303-highest-school-ever",
+    "Ankara rakımı ~938 m, Kars rakımı ~1.768 m (Vikipedi)",
+    "NOT: 'Türkiye'nin en yüksek okulu' iddiası resmi olarak doğrulanmadı; videoda 'en yüksek rakımlı okullarından biri' denildi."
+  ]
+}
