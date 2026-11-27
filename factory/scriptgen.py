@@ -47,7 +47,8 @@ Kurallar:
 - Sonda soru sorup yoruma ve takibe çağır.
 - Sadece verilen araştırma notlarındaki doğrulanmış bilgileri kullan. Emin olmadığın iddiayı yumuşat ("biri", "yaklaşık", "olabilir"). Asla uydurma rakam yazma.
 - Sayıları rakamla yaz (2.400, -30, %15); binlik ayırıcı nokta. Vurgulanacak 1-3 kelimeyi *yıldız* içine al (ör. *2.400 metre*).
-- Dil: sade, konuşma dili, kısa cümleler, Türkçe karakterler doğru.
+- Dil: sade, konuşma dili, kısa cümleler, Türkçe karakterler doğru. Seslendirme insan gibi aksın: soru cümleleri, ünlemler, "peki", "ama", "üstelik" gibi bağlaçlar kullan; uzun yan cümlelerden kaçın.
+- Her sahneye isteğe bağlı "tone" yaz (ör. "gizemli ve fısıltıya yakın", "şaşkın ve heyecanlı", "sakin ve duygusal", "meydan okuyan"); Gemini-TTS anlatıcısı bunu uygular.
 - title: ekranın üstünde ilk sahnede görünen 2 satırlık merak başlığı ("\\n" ile böl), en fazla ~30 karakter.
 - id: Türkçe karakter içermeyen kebab-case.
 {VISUAL_DOC}
@@ -147,6 +148,7 @@ class Overlay(BaseModel):
 
 class Scene(BaseModel):
     text: str
+    tone: Optional[str] = None
     visual: Visual
     overlay: Optional[Overlay] = None
 

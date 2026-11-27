@@ -405,7 +405,9 @@ def mixdown(voice: np.ndarray, music_bed: np.ndarray, sfx_bus: np.ndarray, duck_
     env = envelope(v)
     k = np.clip(env / (np.percentile(env[env > 1e-4], 60) + 1e-9 if np.any(env > 1e-4) else 1), 0, 1)
     duck = db(duck_db * k)
-    out = (stereo(v) * db(-1) + m * db(-12) * duck[:, None] + s * db(-2)) * db(-5)
+    # sese çok hafif oda yankısı: kuru/robotik hissi azaltır, miksle kaynaştırır
+    vox = reverb(stereo(v), decay=0.45, wet=0.07, seed=21, damp=7000)
+    out = (vox * db(-1) + m * db(-12) * duck[:, None] + s * db(-2)) * db(-5)
     # yalnızca tepe noktalarına dokunan yumuşak limiter (eşik 0.8); son loudness ffmpeg loudnorm ile
     a = np.abs(out)
     knee = 0.8

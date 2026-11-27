@@ -53,7 +53,8 @@ def build_timeline(script: dict, workdir: Path) -> tuple[dict, list[Path]]:
     log(f"seslendirme ({tts.engine_name()}) – {len(scenes)} sahne")
     for i, sc in enumerate(scenes):
         say = TP.speakable(sc.get("say") or sc["text"])
-        p = tts.synthesize(say, workdir / "voice" / f"s{i:02d}.wav", voice_cfg)
+        cfg_i = {**voice_cfg, **({"tone": sc["tone"]} if sc.get("tone") else {})}
+        p = tts.synthesize(say, workdir / "voice" / f"s{i:02d}.wav", cfg_i)
         wavs.append(p)
         durs.append(len(A.read_wav(str(p))) / A.SR)
 

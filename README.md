@@ -33,13 +33,26 @@ python -m factory new "Türkiye'nin en soğuk yeri" --build
 python -m factory auto --count 3
 ```
 
-### Seslendirme seçimi
-| Ortam değişkeni | Motor |
-|---|---|
-| `GOOGLE_TTS_API_KEY` tanımlı | Google Cloud Text-to-Speech (varsayılan ses `tr-TR-Wavenet-B`) |
-| tanımlı değil | Google Translate TTS (gTTS ile aynı ses, anahtar gerekmez) |
+### Seslendirme seçimi (insan sesine yakınlık)
 
-Ses, senaryoda `"voice": {"voice": "tr-TR-Wavenet-E", "cloud_rate": 1.1}` ile değiştirilebilir.
+| Ayar | Motor | Doğallık |
+|---|---|---|
+| `GOOGLE_TTS_API_KEY` yok | Google Translate sesi (anahtarsız, gTTS ile aynı) | ★★ |
+| anahtar var (varsayılan) | **Chirp 3 HD** – `tr-TR-Chirp3-HD-Charon` | ★★★★★ |
+| anahtar + `"voice": {"engine": "gemini"}` | **Gemini-TTS** – stil talimatıyla (heyecanlı, gizemli…) | ★★★★★ + oyunculuk |
+| anahtar + `"voice": {"engine": "wavenet"}` | WaveNet | ★★★ |
+
+```jsonc
+"voice": {"voice": "tr-TR-Chirp3-HD-Charon", "cloud_rate": 1.08}          // Chirp 3 HD
+"voice": {"engine": "gemini", "voice": "Charon", "style": "Enerjik belgesel anlatıcısı..."}  // Gemini-TTS
+```
+
+Sahne bazında `"tone": "şaşkın ve heyecanlı"` yazılırsa Gemini-TTS o sahneyi o tonda okur.
+Hangi sesin hoşunuza gittiğini seçmek için: `python -m factory voices [--gemini]`
+→ `output/ses-ornekleri/` altına her Türkçe sesle örnek cümle üretir.
+
+Tüm motorlarda ses zinciri: formant korumalı hızlandırma (rubberband), de-esser, kompresör,
+sıcaklık/anlaşılırlık EQ'su ve mikste hafif oda yankısı.
 
 ## Sürekli üretim (GitHub Actions)
 
