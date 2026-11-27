@@ -1,0 +1,6 @@
+agent_name = "sesli-sohbet"
+secret_set = "sesli-sohbet-secrets"
+agent_profile = "agent-1x"
+
+[scaling]
+	min_agents = 1
